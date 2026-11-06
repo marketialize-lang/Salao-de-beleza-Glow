@@ -1,13 +1,114 @@
-import {useEffect,useRef,useState} from 'react';
-import {Volume2,VolumeX,ArrowLeft,ArrowRight,ArrowUpRight,Plus} from 'lucide-react';
-import {motion,useScroll,useTransform,useSpring} from 'framer-motion';
-import {Button} from '@/components/ui/button';
-import {Dialog,DialogContent,DialogTitle,DialogDescription} from '@/components/ui/dialog';
-import {media} from '@/data/glow';
-import {videos} from '@/data/glow-videos';
-import {UnfurlGallery} from './unfurl-gallery';
+import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { media } from "@/data/glow";
+import { featuredVideo } from "@/data/glow-videos";
+import { UnfurlGallery } from "./unfurl-gallery";
 
-const PIN=1;
+const resultPhotos = [
+  {
+    src: "/results/unhas-claro-01.jpg",
+    alt: "Unhas com esmalte claro e acabamento brilhante",
+  },
+  {
+    src: "/results/cilios.jpg",
+    alt: "Detalhe de extensão de cílios",
+  },
+  {
+    src: "/results/unhas-rosa-01.jpg",
+    alt: "Unhas em tom rosa claro",
+  },
+  {
+    src: "/results/unhas-rosa-02.jpg",
+    alt: "Manicure em tom rosa claro",
+  },
+];
 
-export function Results(){const rail=useRef<HTMLDivElement>(null);const elements=useRef<(HTMLVideoElement|null)[]>([]);const [active,setActive]=useState(-1);const [sound,setSound]=useState(-1);const section=useRef<HTMLElement>(null);const track=useRef<HTMLDivElement>(null);const [end,setEnd]=useState(0);const [step,setStep]=useState(305);useEffect(()=>{const m=()=>{if(!track.current||!rail.current)return;const items=Array.from(track.current.children) as HTMLElement[];const card=items[0];if(!card)return;const railW=rail.current.clientWidth;const cardW=card.offsetWidth;const travel=Math.max(0,track.current.scrollWidth-railW);const next=items[1];setStep(next?next.offsetLeft-card.offsetLeft:cardW+20);setEnd(railW<cardW*1.6?travel+railW-cardW:travel)};m();let lastW=window.innerWidth;const onResize=()=>{if(window.innerWidth===lastW)return;lastW=window.innerWidth;m()};window.addEventListener('resize',onResize);return()=>window.removeEventListener('resize',onResize)},[]);const {scrollYProgress}=useScroll({target:section,offset:['start start','end end']});const steps=Math.max(1,Math.round(end/step));const index=useTransform(scrollYProgress,[.02,1],[0,steps]);const snapped=useTransform(index,v=>Math.round(v));const glide=useSpring(snapped,{stiffness:130,damping:26,mass:.7});const x=useTransform(glide,v=>-Math.min(v*step,end));const exitScale=useTransform(scrollYProgress,[.96,1],[1,.97]);const exitY=useTransform(scrollYProgress,[.96,1],[0,-20]);const exitOpacity=useTransform(scrollYProgress,[.96,1],[1,1]);useEffect(()=>{const ratios=new Map<Element,number>();const observer=new IntersectionObserver(entries=>{entries.forEach(e=>ratios.set(e.target,e.intersectionRatio));let next=-1;let highest=.59;elements.current.forEach((e,i)=>{if(e&&(ratios.get(e)??0)>highest){highest=ratios.get(e)??0;next=i}});setActive(next)},{threshold:[0,.4,.6,.8,1]});elements.current.forEach(e=>{if(e)observer.observe(e)});return()=>observer.disconnect()},[]);useEffect(()=>{elements.current.forEach((e,i)=>{if(!e)return;if(i===active){e.muted=sound!==i;e.defaultMuted=true;e.play().catch(()=>{})}else e.pause()})},[active]);return <section id="resultados" ref={section} className="result-section shell section-anchor" style={{height:`calc(100svh + ${Math.round(end*PIN)}px)`,paddingBlock:0}}><div className="result-pin"><motion.div style={{scale:exitScale,y:exitY,opacity:exitOpacity,transformOrigin:"50% 30%"}}><div className="section-top"><p className="eyebrow">RESULTADOS REAIS</p><h2 className="editorial-title">O TRABALHO<br/><span className="serif">de perto.</span></h2><div className="flex gap-2"><Button className="circle" variant="outline" aria-label="Vídeos anteriores" onClick={()=>window.scrollBy({top:-step*PIN,behavior:'smooth'})}><ArrowLeft/></Button><Button className="circle" variant="outline" aria-label="Próximos vídeos" onClick={()=>window.scrollBy({top:step*PIN,behavior:'smooth'})}><ArrowRight/></Button></div></div><div className="video-rail" ref={rail}><motion.div ref={track} className="flex gap-5 shrink-0" style={{x}}>{videos.map((v,i)=><div className="video-item" key={v.url}><video ref={el=>{elements.current[i]=el;if(el){el.defaultMuted=true;if(sound!==i)el.muted=true}}} webkit-playsinline="true" src={v.url} poster={v.poster} preload="metadata" muted={sound!==i} playsInline loop aria-label={v.label} onClick={()=>{setSound(sound===i?-1:i);const e=elements.current[i];if(e){setActive(i);e.play().catch(()=>{})}}}/><span className="video-label">{v.label}</span><Button className="circle sound" aria-label={sound===i?'Desativar som':'Ativar som'} onClick={()=>{setSound(sound===i?-1:i);setActive(i);elements.current[i]?.play().catch(()=>{})}}>{sound===i?<Volume2 size={18}/>:<VolumeX size={18}/>}</Button></div>)}</motion.div></div><Button asChild className="mt-8" variant="ghost"><a href="#servicos">MONTAR MEU ATENDIMENTO<ArrowUpRight/></a></Button></motion.div></div></section>}
-export function Feedbacks(){const [index,setIndex]=useState(0);const [zoom,setZoom]=useState(false);return <section id="depoimentos" className="testimonials section-anchor" style={{paddingBlock:0}}><UnfurlGallery images={media.feedbacks} onOpen={i=>{setIndex(i);setZoom(true)}}><p className="eyebrow mb-6">PALAVRAS DE QUEM VIVEU</p><h2 className="editorial-title">QUEM JÁ<br/>PASSOU<br/><span className="serif">por aqui.</span></h2></UnfurlGallery><Dialog open={zoom} onOpenChange={setZoom}><DialogContent className="max-w-3xl"><DialogTitle className="sr-only">Depoimento GLOW</DialogTitle><DialogDescription className="sr-only">Conversa enviada por uma cliente.</DialogDescription><img src={media.feedbacks[index]} alt="Depoimento ampliado" className="max-h-[80dvh] w-full object-contain"/></DialogContent></Dialog></section>}
+export function Results() {
+  return (
+    <section id="resultados" className="result-section shell section-anchor">
+      <div className="section-top results-heading">
+        <p className="eyebrow">RESULTADOS REAIS</p>
+        <h2 className="editorial-title">
+          O TRABALHO
+          <br />
+          <span className="serif">de perto.</span>
+        </h2>
+      </div>
+
+      <div className="results-feature">
+        <div className="results-feature-video">
+          <video
+            src={featuredVideo.url}
+            poster={featuredVideo.poster}
+            controls
+            playsInline
+            preload="metadata"
+            aria-label="Vídeo em destaque dos trabalhos da GLOW"
+          />
+        </div>
+
+        <div className="results-gallery">
+          <p className="eyebrow results-gallery-title">MAIS RESULTADOS</p>
+          <div
+            className="results-gallery-track"
+            role="list"
+            aria-label="Fotos dos trabalhos da GLOW. Deslize para o lado para ver mais."
+            tabIndex={0}
+          >
+            {resultPhotos.map((photo) => (
+              <figure className="results-photo" role="listitem" key={photo.src}>
+                <img src={photo.src} alt={photo.alt} loading="lazy" />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <Button asChild className="mt-8" variant="ghost">
+        <a href="#servicos">
+          MONTAR MEU ATENDIMENTO <ArrowUpRight />
+        </a>
+      </Button>
+    </section>
+  );
+}
+
+export function Feedbacks() {
+  const [index, setIndex] = useState(0);
+  const [zoom, setZoom] = useState(false);
+  return (
+    <section id="depoimentos" className="testimonials section-anchor" style={{ paddingBlock: 0 }}>
+      <UnfurlGallery
+        images={media.feedbacks}
+        onOpen={(i) => {
+          setIndex(i);
+          setZoom(true);
+        }}
+      >
+        <p className="eyebrow mb-6">PALAVRAS DE QUEM VIVEU</p>
+        <h2 className="editorial-title">
+          QUEM JÁ
+          <br />
+          PASSOU
+          <br />
+          <span className="serif">por aqui.</span>
+        </h2>
+      </UnfurlGallery>
+      <Dialog open={zoom} onOpenChange={setZoom}>
+        <DialogContent className="max-w-3xl">
+          <DialogTitle className="sr-only">Depoimento GLOW</DialogTitle>
+          <DialogDescription className="sr-only">
+            Conversa enviada por uma cliente.
+          </DialogDescription>
+          <img
+            src={media.feedbacks[index]}
+            alt="Depoimento ampliado"
+            className="max-h-[80dvh] w-full object-contain"
+          />
+        </DialogContent>
+      </Dialog>
+    </section>
+  );
+}
