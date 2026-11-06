@@ -1,5 +1,4 @@
-import { ArrowDown, ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowDown } from "lucide-react";
 import { ParticleField } from "@/components/glow/particle-field";
 
 function TitleLetters() {
@@ -31,16 +30,6 @@ export function Hero() {
                   style={{ top: `${top}em` }}
                 />
               ))}
-              {[24, 34, -24, -34].map((offset) => (
-                <span
-                  key={`v-${offset}`}
-                  className="hero-accent-line hero-accent-line-vertical"
-                  style={{
-                    left: offset > 0 ? `${offset}em` : undefined,
-                    right: offset < 0 ? `${Math.abs(offset)}em` : undefined,
-                  }}
-                />
-              ))}
             </div>
           </div>
           <div className="hero-title-wrap">
@@ -50,18 +39,6 @@ export function Hero() {
             <div aria-hidden="true" className="hero-heading hero-heading-glow">
               <TitleLetters />
             </div>
-          </div>
-          <div className="hero-foot">
-            <div className="caption">
-              GLOW · JULIANA MATOS
-              <br />
-              ITAPETININGA, SP
-            </div>
-            <Button asChild variant="ghost" className="text-xs">
-              <a href="#servicos">
-                MONTAR MEU ATENDIMENTO <ArrowUpRight />
-              </a>
-            </Button>
           </div>
         </section>
       </div>
