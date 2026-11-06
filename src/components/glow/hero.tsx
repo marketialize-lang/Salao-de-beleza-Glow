@@ -12,7 +12,7 @@ return <><div className="hero-track"><section className="hero-stage" aria-label=
 <div className="hero-accent-lines"/>
 <ParticleField/>
 </div>
-<motion.h1 aria-label="Acenda a sua luz" className="hero-heading" initial={{y:36,opacity:0}} animate={{y:0,opacity:1}} transition={{ease:'easeOut',delay:.25,duration:.8}}>
+<motion.h1 aria-label="Acenda a sua luz" className="hero-heading" initial={false} animate={{y:0,opacity:1}} transition={{ease:'easeOut',duration:.8}}>
 <span className="hero-title-line hero-sheen">ACENDA <span className="serif">a sua</span></span><span className="light-word hero-sheen">LUZ</span>
 </motion.h1>
 <div className="hero-foot"><div className="caption">GLOW · JULIANA MATOS<br/>ITAPETININGA, SP</div><Button asChild variant="ghost" className="text-xs"><a href="#servicos">MONTAR MEU ATENDIMENTO <ArrowUpRight/></a></Button></div>

@@ -3,7 +3,6 @@ import sofa from '@/assets/salon-sofa.asset.json';
 import detail from '@/assets/salon-detail.asset.json';
 import chair from '@/assets/salon-chair.asset.json';
 import logo from '@/assets/logo.asset.json';
-import coffee from '@/assets/coffee.asset.json';
 import nails from '@/assets/nails.asset.json';
 import f1 from '@/assets/feedback-1.asset.json';
 import f2 from '@/assets/feedback-2.asset.json';
@@ -11,7 +10,7 @@ import f3 from '@/assets/feedback-3.asset.json';
 import f4 from '@/assets/feedback-4.asset.json';
 import f5 from '@/assets/feedback-5.asset.json';
 export const photos=[{url:wide.url,alt:'Salão GLOW com televisão, sofá e janela'},{url:sofa.url,alt:'Sofá e mesa do salão GLOW'},{url:detail.url,alt:'Aparador e xícaras do salão GLOW'},{url:chair.url,alt:'Cadeira de atendimento e luminária GLOW'}];
-export const media={logo:logo.url,coffee:coffee.url,nails:nails.url,feedbacks:[f1.url,f2.url,f3.url,f4.url,f5.url]};
+export const media={logo:logo.url,nails:nails.url,feedbacks:[f1.url,f2.url,f3.url,f4.url,f5.url]};
 export const contacts={whatsapp:'5515996793100',pix:'+5515996793100',recipient:'Juliana A de Matos Paulino',city:'ITAPETININGA',address:'R. Pedro Moreira, 200 - Vila Rio Branco, Itapetininga - SP, CEP 18208-230',instagram:'glowjulianamatos'};
 export type Service={id:string;name:string;category:string;price:number;from?:boolean;description?:string;featured?:boolean};
 export const services:Service[]=[
