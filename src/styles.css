@@ -224,13 +224,6 @@ div[id*="lovable"],
 /* Hero de luz GLOW */
 .hero-track{height:100svh;min-height:620px;position:relative}
 .hero-stage{display:flex;align-items:center;justify-content:center;height:100svh;min-height:620px;position:relative;top:auto;isolation:isolate;overflow:hidden;overflow:clip}
-.hero-light-effect{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.hero-main-glow{position:absolute;top:10%;left:50%;width:min(68vw,48rem);height:18rem;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center,rgb(255 255 255 / .34),rgb(255 255 255 / .12) 36%,transparent 72%);filter:blur(55px)}
-.hero-lamp{position:absolute;top:-5rem;left:50%;translate:-50% 0;height:15rem;border-radius:50%;background:radial-gradient(ellipse at center,rgb(255 255 255 / .42),rgb(255 255 255 / .12) 42%,transparent 72%);filter:blur(32px)}
-.hero-top-line{position:absolute;top:16%;left:50%;translate:-50% 0;width:min(30rem,72vw);height:1px;background:rgb(255 255 255 / .78);box-shadow:0 0 18px 3px rgb(255 255 255 / .25)}
-.hero-cone{position:absolute;top:16%;width:min(30rem,46vw);height:min(29rem,58vh);filter:blur(16px);transform-origin:top center;mask-image:linear-gradient(to bottom,#000 0%,rgb(0 0 0 / .7) 42%,transparent 100%)}
-.hero-cone-left{right:50%;background:conic-gradient(from 70deg at 100% 0%,rgb(255 255 255 / .42) 0deg,transparent 30deg,transparent 100deg)}
-.hero-cone-right{left:50%;background:conic-gradient(from 290deg at 0% 0%,rgb(255 255 255 / .42) 0deg,transparent 30deg,transparent 100deg)}
 .hero-heading{position:relative;z-index:1;top:auto;left:auto;max-width:92vw;text-align:center;font-size:clamp(3.5rem,12vw,9rem);font-weight:700;line-height:.86;pointer-events:none}
 .hero-heading .serif{font-size:.46em;display:inline-block;margin-left:.14em}
 .hero-heading .light-word{display:block;margin:0;font-size:1.18em}
@@ -238,7 +231,7 @@ div[id*="lovable"],
 .hero-foot .caption{font-size:10px}
 @media(min-width:1500px){.hero-heading{font-size:9rem}}
 @media(max-width:1000px){.hero-heading{font-size:clamp(4rem,12vw,7rem)}}
-@media(max-width:640px){.hero-stage{height:100svh;min-height:620px}.hero-track{height:100svh;min-height:620px}.hero-heading{font-size:clamp(3.5rem,14vw,5.5rem)}.hero-heading .serif{font-size:.48em;margin-left:.08em}.hero-foot{left:22px;right:22px;bottom:18px;display:grid;grid-template-columns:1fr auto;gap:8px}.hero-foot .caption{font-size:9px;white-space:nowrap}.hero-foot>a{grid-column:1/-1;justify-self:end}.hero-top-line{top:18%;width:62vw}.hero-cone{top:18%;width:48vw;height:42vh}.hero-lamp{height:12rem}.hero-main-glow{top:13%;width:92vw;height:13rem;filter:blur(42px)}}
+@media(max-width:640px){.hero-stage{height:100svh;min-height:620px}.hero-track{height:100svh;min-height:620px}.hero-heading{font-size:clamp(3.5rem,14vw,5.5rem)}.hero-heading .serif{font-size:.48em;margin-left:.08em}.hero-foot{left:22px;right:22px;bottom:18px;display:grid;grid-template-columns:1fr auto;gap:8px}.hero-foot .caption{font-size:9px;white-space:nowrap}.hero-foot>a{grid-column:1/-1;justify-self:end}}
 
 /* Galaxy structure adapted to GLOW: keep the salon palette and editorial voice. */
 :root,.dark{
@@ -345,4 +338,31 @@ body{background:var(--glow-canvas);color:var(--foreground)}
   .site-footer{padding-block:var(--space-12)}
   .footer-grid{gap:var(--space-8)}
   .cart-content{border-radius:var(--radius-card) var(--radius-card) 0 0!important}
+}
+
+/* Particle spotlight and title sheen adapted to the GLOW palette. */
+.hero-light-effect{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;isolation:isolate}
+.hero-light-effect::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 4%,color-mix(in oklab,var(--glow-champagne) 10%,transparent),transparent 52%),linear-gradient(to bottom,transparent 38%,var(--glow-canvas) 100%)}
+.hero-spotlight{position:absolute;z-index:0;top:-6%;left:50%;width:min(38rem,58vw);height:max(48rem,88vh);translate:-50% 0;transform-origin:50% 0;background:conic-gradient(from 0deg at 50% -5%,transparent 44%,color-mix(in oklab,var(--glow-champagne) 10%,transparent) 49%,color-mix(in oklab,var(--glow-champagne) 18%,transparent) 50%,color-mix(in oklab,var(--glow-champagne) 10%,transparent) 51%,transparent 56%);filter:blur(14px);mask-image:linear-gradient(to bottom,#000 0%,rgb(0 0 0 / .8) 46%,transparent 94%);animation:hero-spotlight-breathe 17s ease-in-out infinite}
+.hero-spotlight-left{rotate:-18deg;animation-delay:-5s}
+.hero-spotlight-right{rotate:18deg;animation-delay:-11s}
+.hero-spotlight-center{width:min(26rem,42vw);opacity:.58;filter:blur(20px);animation-delay:-8s}
+.hero-accent-lines{position:absolute;inset:0;z-index:0;background-image:linear-gradient(to bottom,color-mix(in oklab,var(--glow-champagne) 14%,transparent) 1px,transparent 1px),linear-gradient(to right,color-mix(in oklab,var(--glow-champagne) 12%,transparent) 1px,transparent 1px);background-size:100% 8rem,8rem 100%;opacity:.2;mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 75%)}
+.hero-particles{position:absolute;z-index:1;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-heading{display:flex;flex-direction:column;align-items:center;gap:0}
+.hero-heading .hero-title-line{display:block;white-space:nowrap;font-size:.76em;line-height:.95}
+.hero-heading .hero-sheen,.hero-heading .serif{color:transparent;background-image:linear-gradient(105deg,var(--foreground) 0%,var(--foreground) 39%,color-mix(in oklab,var(--glow-champagne) 62%,var(--foreground)) 50%,var(--foreground) 61%,var(--foreground) 100%);background-size:240% 100%;background-position:120% center;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:hero-type-sheen 10s ease-in-out 1.2s infinite}
+.hero-heading .serif{font-size:.6em;display:inline-block;margin-left:.14em;line-height:1.1}
+.hero-heading .light-word{display:block;margin:0;font-size:1.18em;line-height:.88}
+@keyframes hero-spotlight-breathe{0%,100%{opacity:.36}50%{opacity:.62}}
+@keyframes hero-type-sheen{0%,17%{background-position:120% center}53%,100%{background-position:-35% center}}
+@media(max-width:640px){
+  .hero-spotlight{top:1%;width:74vw;height:78vh}
+  .hero-spotlight-center{width:56vw}
+  .hero-accent-lines{background-size:100% 6rem,6rem 100%;opacity:.16}
+  .hero-heading .hero-title-line{font-size:.72em}
+  .hero-heading .serif{font-size:.62em;margin-left:.08em}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-spotlight,.hero-heading .hero-sheen,.hero-heading .serif{animation:none;background-position:50% center}
 }
