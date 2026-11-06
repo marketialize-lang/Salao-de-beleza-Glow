@@ -1,0 +1,17 @@
+import v1 from '@/assets/result-1-video.asset.json';
+import p1 from '@/assets/result-1-poster.asset.json';
+import v2 from '@/assets/result-2-video.asset.json';
+import p2 from '@/assets/result-2-poster.asset.json';
+import v3 from '@/assets/result-3-video.asset.json';
+import p3 from '@/assets/result-3-poster.asset.json';
+import v4 from '@/assets/result-4-video.asset.json';
+import p4 from '@/assets/result-4-poster.asset.json';
+import v5 from '@/assets/result-5-video.asset.json';
+import p5 from '@/assets/result-5-poster.asset.json';
+import v6 from '@/assets/result-6-video.asset.json';
+import p6 from '@/assets/result-6-poster.asset.json';
+import v7 from '@/assets/result-7-video.asset.json';
+import p7 from '@/assets/result-7-poster.asset.json';
+import v8 from '@/assets/result-8-video.asset.json';
+import p8 from '@/assets/result-8-poster.asset.json';
+export const videos=[{url:v1.url,poster:p1.url,label:'Trabalho GLOW · 01'},{url:v4.url,poster:p4.url,label:'Trabalho GLOW · 04'},{url:v5.url,poster:p5.url,label:'Trabalho GLOW · 05'},{url:v6.url,poster:p6.url,label:'Trabalho GLOW · 06'},{url:v7.url,poster:p7.url,label:'Trabalho GLOW · 07'},{url:v2.url,poster:p2.url,label:'Trabalho GLOW · 02'},{url:v3.url,poster:p3.url,label:'Trabalho GLOW · 03'}];

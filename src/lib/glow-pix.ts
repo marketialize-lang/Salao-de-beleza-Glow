@@ -1,0 +1,4 @@
+import { contacts } from '@/data/glow';
+const field=(id:string,value:string)=>id+String(value.length).padStart(2,'0')+value;
+export function crc16(value:string){let crc=0xffff;for(const char of value){crc^=char.charCodeAt(0)<<8;for(let n=0;n<8;n++)crc=((crc<<1)^((crc&0x8000)?0x1021:0))&0xffff;}return crc.toString(16).toUpperCase().padStart(4,'0');}
+export function pixPayload(cents:number){if(!Number.isInteger(cents)||cents<=0)throw new Error('Valor inválido');const clean=(v:string,max:number)=>v.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().slice(0,max);const payload=field('00','01')+field('01','11')+field('26',field('00','br.gov.bcb.pix')+field('01',contacts.pix))+field('52','0000')+field('53','986')+field('54',(cents/100).toFixed(2))+field('58','BR')+field('59',clean(contacts.recipient,25))+field('60',clean(contacts.city,15))+field('62',field('05','***'))+'6304';return payload+crc16(payload);}

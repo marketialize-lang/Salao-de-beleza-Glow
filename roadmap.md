@@ -1,0 +1,12 @@
+# GLOW
+- [x] Consolidar referências, fotos, preços e contatos.
+- [x] Criar identidade, abertura das quatro fotos, manifesto e serviços selecionáveis.
+- [x] Preparar carrinho, desconto e Pix com agenda compartilhada sem dupla reserva.
+- [x] Apresentar vídeos reais, feedbacks e contatos com ação de rota.
+- [x] Preparar acesso restrito da equipe para configuração, bloqueios e reservas.
+- [x] Verificar apresentação e fluxo disponível no navegador (cinco larguras móveis, desconto, persistência, agenda não configurada, ampliação e movimento reduzido).
+- [ ] Abrir agenda vendável — depende de durações reais, intervalo, capacidade e conta autorizada da equipe.
+- [ ] Validar Pix no aplicativo bancário e apresentação em iPhone/Android físicos — depende da proprietária.
+- [x] Exibir o horário das reservas sem segundos (ex.: 13:00).
+- [x] Tirar a numeração (01, 02, ...) dos nomes das cinco seções.
+- [x] Esconder a marca/link do Lovable no site.
