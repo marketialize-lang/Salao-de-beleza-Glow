@@ -1,4 +1,5 @@
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { ParticleField } from "@/components/glow/particle-field";
 
 function TitleLetters() {
@@ -22,15 +23,6 @@ export function Hero() {
             <div className="hero-spotlight hero-spotlight-right" />
             <div className="hero-spotlight hero-spotlight-center" />
             <ParticleField />
-            <div className="hero-accent-lines">
-              {[6, 11, 16, 24, 29].map((top) => (
-                <span
-                  key={`h-${top}`}
-                  className="hero-accent-line hero-accent-line-horizontal"
-                  style={{ top: `${top}em` }}
-                />
-              ))}
-            </div>
           </div>
           <div className="hero-title-wrap">
             <h1 aria-label="Acenda a sua luz" className="hero-heading">
@@ -39,6 +31,13 @@ export function Hero() {
             <div aria-hidden="true" className="hero-heading hero-heading-glow">
               <TitleLetters />
             </div>
+          </div>
+          <div className="hero-foot">
+            <Button asChild variant="ghost" className="text-xs">
+              <a href="#servicos">
+                MONTAR MEU ATENDIMENTO <ArrowUpRight />
+              </a>
+            </Button>
           </div>
         </section>
       </div>
