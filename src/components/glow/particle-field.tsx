@@ -1,104 +1,114 @@
-import {useEffect,useRef} from 'react';
+import { useEffect, useRef } from "react";
 
 interface Particle {
-  x:number;
-  y:number;
-  speed:number;
-  length:number;
-  phase:number;
-  tint:'accent'|'paper';
+  x: number;
+  y: number;
+  speed: number;
+  opacity: number;
+  fadeStart: number;
+  fadingOut: boolean;
 }
 
-export function ParticleField(){
-  const canvasRef=useRef<HTMLCanvasElement>(null);
+export function ParticleField() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(()=>{
-    const canvas=canvasRef.current;
-    const stage=canvas?.parentElement;
-    const context=canvas?.getContext('2d');
-    if(!canvas||!stage||!context)return;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const stage = canvas?.parentElement;
+    const context = canvas?.getContext("2d");
+    if (!canvas || !stage || !context) return;
 
-    const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
-    let width=0;
-    let height=0;
-    let frame=0;
-    let previousTime=0;
-    let isVisible=!document.hidden;
-    let particles:Particle[]=[];
-    const styles=getComputedStyle(stage);
-    const accent=styles.getPropertyValue('--glow-champagne').trim();
-    const paper=styles.getPropertyValue('--glow-paper').trim();
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let width = 0;
+    let height = 0;
+    let frame = 0;
+    let previousTime = 0;
+    let visible = !document.hidden;
+    let particles: Particle[] = [];
 
-    const createParticle=():Particle=>({
-      x:Math.random()*width,
-      y:Math.random()*height,
-      speed:.12+Math.random()*.4,
-      length:1+Math.random()*2.5,
-      phase:Math.random()*Math.PI*2,
-      tint:Math.random()>.84?'paper':'accent',
-    });
+    const reset = (particle: Particle) => {
+      particle.x = Math.random() * width;
+      particle.y = Math.random() * height;
+      particle.speed = Math.random() / 5 + 0.1;
+      particle.opacity = 1;
+      particle.fadeStart = Date.now() + Math.random() * 600 + 100;
+      particle.fadingOut = false;
+    };
 
-    const draw=(time:number)=>{
-      if(!isVisible)return;
-      const delta=previousTime?Math.min((time-previousTime)/16.67,2):1;
-      previousTime=time;
-      context.clearRect(0,0,width,height);
+    const draw = (time: number) => {
+      if (!visible) return;
+      const delta = previousTime ? Math.min((time - previousTime) / 16.67, 2) : 1;
+      previousTime = time;
+      context.clearRect(0, 0, width, height);
 
-      for(const particle of particles){
-        if(!motionPreference.matches){
-          particle.y-=particle.speed*delta;
-          particle.phase+=.018*delta;
-          if(particle.y < -particle.length){
-            particle.y=height+particle.length;
-            particle.x=Math.random()*width;
+      particles.forEach((particle) => {
+        if (!motionPreference.matches) {
+          particle.y -= particle.speed * delta;
+          if (particle.y < 0) reset(particle);
+          if (!particle.fadingOut && Date.now() > particle.fadeStart) particle.fadingOut = true;
+          if (particle.fadingOut) {
+            particle.opacity -= 0.008 * delta;
+            if (particle.opacity <= 0) reset(particle);
           }
         }
-        context.fillStyle=particle.tint==='paper'?paper:accent;
-        context.globalAlpha=(particle.tint==='paper'?.16:.12)+(.28+.22*Math.sin(particle.phase));
-        context.fillRect(particle.x,particle.y,1,particle.length);
-      }
-      context.globalAlpha=1;
-      if(!motionPreference.matches)frame=requestAnimationFrame(draw);
+        const red = 255 - Math.random() * 22;
+        const green = 235 - Math.random() * 22;
+        const blue = 210 - Math.random() * 18;
+        context.fillStyle = `rgba(${red},${green},${blue},${particle.opacity})`;
+        context.fillRect(particle.x, particle.y, 0.4, Math.random() * 2 + 1);
+      });
+
+      if (!motionPreference.matches) frame = requestAnimationFrame(draw);
     };
 
-    const start=()=>{
+    const start = () => {
       cancelAnimationFrame(frame);
-      previousTime=0;
-      frame=requestAnimationFrame(draw);
+      previousTime = 0;
+      frame = requestAnimationFrame(draw);
     };
 
-    const resize=()=>{
-      const bounds=stage.getBoundingClientRect();
-      width=bounds.width;
-      height=bounds.height;
-      const pixelRatio=Math.min(window.devicePixelRatio||1,1.5);
-      canvas.width=Math.round(width*pixelRatio);
-      canvas.height=Math.round(height*pixelRatio);
-      context.setTransform(pixelRatio,0,0,pixelRatio,0,0);
-      const count=Math.min(680,Math.max(110,Math.floor(width*height/12000)));
-      particles=Array.from({length:count},createParticle);
+    const resize = () => {
+      const bounds = stage.getBoundingClientRect();
+      width = bounds.width;
+      height = bounds.height;
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width = Math.round(width * pixelRatio);
+      canvas.height = Math.round(height * pixelRatio);
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      particles = Array.from({ length: Math.floor((width * height) / 6000) }, () => {
+        const particle: Particle = {
+          x: 0,
+          y: 0,
+          speed: 0,
+          opacity: 1,
+          fadeStart: 0,
+          fadingOut: false,
+        };
+        reset(particle);
+        return particle;
+      });
       start();
     };
 
-    const onVisibilityChange=()=>{
-      isVisible=!document.hidden;
-      if(isVisible)start();
+    const onVisibilityChange = () => {
+      visible = !document.hidden;
+      if (visible) start();
       else cancelAnimationFrame(frame);
     };
 
-    const resizeObserver=new ResizeObserver(resize);
+    const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(stage);
-    document.addEventListener('visibilitychange',onVisibilityChange);
-    motionPreference.addEventListener('change',start);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    motionPreference.addEventListener("change", start);
     resize();
 
-    return()=>{
+    return () => {
       cancelAnimationFrame(frame);
       resizeObserver.disconnect();
-      document.removeEventListener('visibilitychange',onVisibilityChange);
-      motionPreference.removeEventListener('change',start);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      motionPreference.removeEventListener("change", start);
     };
-  },[]);
+  }, []);
 
-  return <canvas ref={canvasRef} className="hero-particles" aria-hidden="true"/>;
+  return <canvas ref={canvasRef} className="hero-particles" aria-hidden="true" />;
 }
