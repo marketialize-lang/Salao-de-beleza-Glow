@@ -1,9 +1,18 @@
-import {useEffect,useRef,useState} from 'react';
-import {motion,useScroll,useTransform} from 'framer-motion';
+import {motion} from 'framer-motion';
 import {ArrowUpRight,ArrowDown} from 'lucide-react';
 import {Button} from '@/components/ui/button';
-import {photos,media} from '@/data/glow';
-export function Hero(){const ref=useRef<HTMLDivElement>(null);const [intro,setIntro]=useState(false);const {scrollYProgress}=useScroll({target:ref,offset:['start start','end end']});const headingScale=useTransform(scrollYProgress,[0,.24],[1,.48]);const headingY=useTransform(scrollYProgress,[0,.24],[0,80]);const [active,setActive]=useState(0);
-useEffect(()=>{try{if(!sessionStorage.getItem('glow-visited')){setIntro(true);sessionStorage.setItem('glow-visited','1');}}catch{}const timer=setTimeout(()=>setIntro(false),1400);return()=>clearTimeout(timer)},[]);useEffect(()=>scrollYProgress.on('change',v=>setActive(Math.min(3,Math.floor(v*4)))),[scrollYProgress]);
-return <>{intro&&<div className="loader" onClick={()=>setIntro(false)}><img src={media.logo} alt="GLOW Juliana Matos"/></div>}<div className="hero-track" ref={ref}><section className="hero-stage" aria-label="Conheça o salão GLOW"><motion.h1 className="hero-heading" style={{scale:headingScale,y:headingY,transformOrigin:'left top'}}>ACENDA{' '}<span className="serif">a sua</span><span className="light-word">LUZ</span></motion.h1><span className="hero-glyph"/>{photos.map((photo,i)=><HeroPhoto key={photo.url} photo={photo} i={i} progress={scrollYProgress}/>)}<div className="hero-foot"><div className="caption">GLOW · JULIANA MATOS<br/>ITAPETININGA, SP</div><div className="hero-marker" aria-label={`Ambiente ${active+1} de 4`}>{photos.map((_,i)=><span key={i} className={i===active?'active':''}/>)}</div><Button asChild variant="ghost" className="text-xs"><a href="#servicos">MONTAR MEU ATENDIMENTO <ArrowUpRight/></a></Button></div></section></div><div className="shell flex justify-between border-t border-border py-6 text-xs text-muted-foreground"><span>BELEZA NO SEU TEMPO.</span><ArrowDown size={15}/><span>CABELO · CUIDADO · GLOW</span></div></>}
-function HeroPhoto({photo,i,progress}:{photo:{url:string;alt:string};i:number;progress:ReturnType<typeof useScroll>['scrollYProgress']}){const start=.18+i*.17;const end=start+.10;const finish=start+.17;const opacity=useTransform(progress,[0,start,end,finish,Math.min(1,finish+.05)],[0,0,1,1,i===3?1:0]);const wipe=useTransform(progress,[start,end],['inset(0 100% 0 0)','inset(0 0% 0 0)']);return <><motion.div className={`hero-photo p${i}`} initial={{clipPath:'inset(100% 0 0 0)'}} animate={{clipPath:'inset(0% 0 0 0)'}} transition={{duration:.9,delay:.15+i*.12,ease:[.22,1,.36,1]}}><img style={i===3?{objectPosition:'36% 50%'}:undefined} src={photo.url} alt={photo.alt} fetchPriority={i===0?'high':undefined} loading={i===0?'eager':'lazy'}/></motion.div><motion.div className="hero-fullphoto" style={{opacity,clipPath:wipe,zIndex:16+i}} aria-hidden="true"><img style={i===3?{objectPosition:'36% 50%'}:undefined} src={photo.url} alt="" decoding="async"/></motion.div></>}
+
+export function Hero(){
+return <><div className="hero-track"><section className="hero-stage" aria-label="Conheça o salão GLOW">
+<div className="hero-light-effect" aria-hidden="true">
+<div className="hero-main-glow"/>
+<motion.div className="hero-lamp" initial={{width:'8rem',opacity:.45}} animate={{width:'16rem',opacity:.9}} transition={{ease:'easeInOut',delay:.2,duration:.8}}/>
+<motion.div className="hero-top-line" initial={{scaleX:.5,opacity:.4}} animate={{scaleX:1,opacity:.85}} transition={{ease:'easeInOut',delay:.2,duration:.8}}/>
+<motion.div className="hero-cone hero-cone-left" initial={{scaleX:.62,opacity:.3}} animate={{scaleX:1,opacity:.72}} transition={{ease:'easeInOut',delay:.2,duration:.8}}/>
+<motion.div className="hero-cone hero-cone-right" initial={{scaleX:.62,opacity:.3}} animate={{scaleX:1,opacity:.72}} transition={{ease:'easeInOut',delay:.2,duration:.8}}/>
+</div>
+<motion.h1 className="hero-heading" initial={{y:36,opacity:0}} animate={{y:0,opacity:1}} transition={{ease:'easeOut',delay:.25,duration:.8}}>
+ACENDA{' '}<span className="serif">a sua</span><span className="light-word">LUZ</span>
+</motion.h1>
+<div className="hero-foot"><div className="caption">GLOW · JULIANA MATOS<br/>ITAPETININGA, SP</div><Button asChild variant="ghost" className="text-xs"><a href="#servicos">MONTAR MEU ATENDIMENTO <ArrowUpRight/></a></Button></div>
+</section></div><div className="shell flex justify-between border-t border-border py-6 text-xs text-muted-foreground"><span>BELEZA NO SEU TEMPO.</span><ArrowDown size={15}/><span>CABELO · CUIDADO · GLOW</span></div></>}

@@ -220,3 +220,22 @@ div[id*="lovable"],
 [aria-label*="lovable" i] {
   display: none !important;
 }
+
+/* Hero de luz GLOW */
+.hero-track{height:100svh;min-height:620px;position:relative}
+.hero-stage{display:flex;align-items:center;justify-content:center;height:100svh;min-height:620px;position:relative;top:auto;isolation:isolate;overflow:hidden;overflow:clip}
+.hero-light-effect{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hero-main-glow{position:absolute;top:10%;left:50%;width:min(68vw,48rem);height:18rem;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center,rgb(255 255 255 / .34),rgb(255 255 255 / .12) 36%,transparent 72%);filter:blur(55px)}
+.hero-lamp{position:absolute;top:-5rem;left:50%;translate:-50% 0;height:15rem;border-radius:50%;background:radial-gradient(ellipse at center,rgb(255 255 255 / .42),rgb(255 255 255 / .12) 42%,transparent 72%);filter:blur(32px)}
+.hero-top-line{position:absolute;top:16%;left:50%;translate:-50% 0;width:min(30rem,72vw);height:1px;background:rgb(255 255 255 / .78);box-shadow:0 0 18px 3px rgb(255 255 255 / .25)}
+.hero-cone{position:absolute;top:16%;width:min(30rem,46vw);height:min(29rem,58vh);filter:blur(16px);transform-origin:top center;mask-image:linear-gradient(to bottom,#000 0%,rgb(0 0 0 / .7) 42%,transparent 100%)}
+.hero-cone-left{right:50%;background:conic-gradient(from 70deg at 100% 0%,rgb(255 255 255 / .42) 0deg,transparent 30deg,transparent 100deg)}
+.hero-cone-right{left:50%;background:conic-gradient(from 290deg at 0% 0%,rgb(255 255 255 / .42) 0deg,transparent 30deg,transparent 100deg)}
+.hero-heading{position:relative;z-index:1;top:auto;left:auto;max-width:92vw;text-align:center;font-size:clamp(3.5rem,12vw,9rem);font-weight:700;line-height:.86;pointer-events:none}
+.hero-heading .serif{font-size:.46em;display:inline-block;margin-left:.14em}
+.hero-heading .light-word{display:block;margin:0;font-size:1.18em}
+.hero-foot{position:absolute;z-index:2;bottom:22px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:end}
+.hero-foot .caption{font-size:10px}
+@media(min-width:1500px){.hero-heading{font-size:9rem}}
+@media(max-width:1000px){.hero-heading{font-size:clamp(4rem,12vw,7rem)}}
+@media(max-width:640px){.hero-stage{height:100svh;min-height:620px}.hero-track{height:100svh;min-height:620px}.hero-heading{font-size:clamp(3.5rem,14vw,5.5rem)}.hero-heading .serif{font-size:.48em;margin-left:.08em}.hero-foot{left:22px;right:22px;bottom:18px;display:grid;grid-template-columns:1fr auto;gap:8px}.hero-foot .caption{font-size:9px;white-space:nowrap}.hero-foot>a{grid-column:1/-1;justify-self:end}.hero-top-line{top:18%;width:62vw}.hero-cone{top:18%;width:48vw;height:42vh}.hero-lamp{height:12rem}.hero-main-glow{top:13%;width:92vw;height:13rem;filter:blur(42px)}}
