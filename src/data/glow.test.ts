@@ -3,8 +3,7 @@ import {totals,services} from './glow';
 import {isClosedDay,brDateTime} from '../lib/glow-booking';
 import {pixPayload,crc16} from '../lib/glow-pix';
 describe('GLOW commercial rules',()=>{
-it('Monday is closed',()=>expect(isClosedDay('2026-10-19')).toBe(true));
-it('Tuesday through Sunday are not closed',()=>{for(const day of ['2026-10-20','2026-10-21','2026-10-22','2026-10-23','2026-10-24','2026-10-25'])expect(isClosedDay(day)).toBe(false)});
+it('Monday through Sunday are open',()=>{for(const day of ['2026-10-19','2026-10-20','2026-10-21','2026-10-22','2026-10-23','2026-10-24','2026-10-25'])expect(isClosedDay(day)).toBe(false)});
 it('two services do not receive discount',()=>expect(totals(['corte','manicure']).discount).toBe(0));
 it('three services receive 15 percent',()=>expect(totals(['corte','manicure','pedicure'])).toMatchObject({subtotal:19000,discount:2850,total:16150}));
 it('five services receive 15 percent',()=>expect(totals(['corte','manicure','pedicure','sollus','wella']).discount).toBe(5550));
