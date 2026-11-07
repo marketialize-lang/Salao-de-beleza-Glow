@@ -41,7 +41,6 @@ export function Results() {
         <div className="results-feature-video">
           <video
             src={featuredVideo.url}
-            poster={featuredVideo.poster}
             controls
             playsInline
             preload="metadata"
