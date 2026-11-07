@@ -440,14 +440,23 @@ body{background:var(--glow-canvas);color:var(--foreground)}
   .results-photo{height:280px}
 }
 
-/* Efeito magnético adaptado ao manifesto GLOW, isolado da hero e das demais seções. */
+/* Efeito tipográfico magnético da referência, adaptado à paleta e à seção manifesto da GLOW. */
 .manifesto{isolation:isolate}
-.manifesto::before{content:"GLOW  GLOW";position:absolute;z-index:0;inset:50% auto auto 50%;transform:translate(-50%,-50%);font:900 clamp(190px,34vw,460px)/.82 system-ui,sans-serif;letter-spacing:-.08em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px color-mix(in oklab,var(--foreground) 11%,transparent);pointer-events:none;animation:manifesto-glow-drift 28s ease-in-out infinite alternate}
-.manifesto>div{position:relative;z-index:1}
-.manifesto .manifesto-magnetic-title{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;font-size:clamp(42px,7.4vw,96px);line-height:.88;isolation:isolate}
+.manifesto-magnetic-marquee{position:absolute;z-index:0;left:0;right:0;top:42%;height:.84em;margin-top:-.42em;overflow:hidden;opacity:.2;pointer-events:none;font:900 clamp(130px,25vw,400px)/.84 system-ui,sans-serif;letter-spacing:-.045em;text-transform:uppercase;white-space:nowrap}
+.manifesto-magnetic-marquee-track{display:flex;width:max-content;animation:manifesto-magnetic-marquee 70s linear infinite}
+.manifesto-magnetic-marquee-track span{display:block;padding-right:.18em;color:transparent;-webkit-text-stroke:1.5px color-mix(in oklab,var(--foreground) 13%,transparent);white-space:pre}
+@keyframes manifesto-magnetic-marquee{to{transform:translateX(-50%)}}
+.manifesto>div:not(.manifesto-magnetic-marquee){position:relative;z-index:1}
+.manifesto-magnetic-stage{position:relative;width:100%;max-width:900px;margin:0 auto;font-size:calc(clamp(42px,7.4vw,96px)*var(--magnetic-fit,1));line-height:.86;cursor:crosshair;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.manifesto .manifesto-magnetic-title{position:static;max-width:900px;margin:0 auto;padding:0;border:0;background:none;color:var(--foreground);font:900 1em/.86 var(--font-sans,Inter Tight,system-ui,sans-serif);letter-spacing:-.055em;word-spacing:.06em;text-align:center;text-transform:uppercase}
 .manifesto-magnetic-row{display:block;white-space:nowrap}
-.manifesto-magnetic-row.serif{font-size:.92em;line-height:.95}
-.manifesto-magnetic-letter{display:inline-block;position:relative;transform-origin:50% 62%;will-change:transform;color:color-mix(in srgb-linear,var(--glow-champagne) calc(var(--magnetic-strength,0)*100%),var(--foreground));}
-@keyframes manifesto-glow-drift{from{translate:-2vw 0}to{translate:2vw 0}}
-@media(max-width:640px){.manifesto .manifesto-magnetic-title{font-size:clamp(36px,8vw,48px)}.manifesto::before{font-size:clamp(150px,42vw,250px);-webkit-text-stroke-width:.7px}}
-@media(prefers-reduced-motion:reduce){.manifesto::before{animation:none}.manifesto-magnetic-letter{will-change:auto}}
+.manifesto-magnetic-row.serif{font-family:'Playfair Display',serif;font-size:1.06em;font-style:italic;font-weight:400;line-height:.82;letter-spacing:-.03em;text-transform:none}
+.manifesto-magnetic-word{display:inline-block;white-space:nowrap}
+.manifesto-magnetic-letter{position:relative;display:inline-block;transform-origin:50% 62%;will-change:transform;color:color-mix(in srgb-linear,var(--glow-champagne) calc(var(--magnetic-strength,0)*100%),var(--foreground))}
+.manifesto-magnetic-field{position:absolute;z-index:2;top:0;left:0;width:300px;height:300px;margin:-150px 0 0 -150px;opacity:0;pointer-events:none}
+.manifesto-magnetic-field i{position:absolute;inset:0;margin:auto;border:1.5px dashed color-mix(in oklab,var(--glow-champagne) 55%,transparent);border-radius:50%;opacity:.45}
+.manifesto-magnetic-field i+i{width:64%;height:64%;border:1px solid color-mix(in oklab,var(--glow-champagne) 58%,transparent);opacity:.4}
+.manifesto-magnetic-field i+i+i{width:30%;height:30%;opacity:.6}
+.manifesto-magnetic-field i+i+i+i{width:15px;height:15px;border:0;border-radius:0;opacity:1;background:linear-gradient(var(--glow-champagne),var(--glow-champagne)) 50% 0/1.5px 100% no-repeat,linear-gradient(var(--glow-champagne),var(--glow-champagne)) 0 50%/100% 1.5px no-repeat}
+@media(max-width:640px){.manifesto-magnetic-marquee{font-size:clamp(130px,25vw,250px)}.manifesto-magnetic-field{display:none}}
+@media(prefers-reduced-motion:reduce){.manifesto-magnetic-marquee-track{animation:none}.manifesto-magnetic-letter{will-change:auto}}
