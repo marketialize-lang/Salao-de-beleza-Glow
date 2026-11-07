@@ -439,3 +439,15 @@ body{background:var(--glow-canvas);color:var(--foreground)}
   .results-gallery-track{margin-right:-22px;padding-right:22px}
   .results-photo{height:280px}
 }
+
+/* Efeito magnético adaptado ao manifesto GLOW, isolado da hero e das demais seções. */
+.manifesto{isolation:isolate}
+.manifesto::before{content:"GLOW  GLOW";position:absolute;z-index:0;inset:50% auto auto 50%;transform:translate(-50%,-50%);font:900 clamp(190px,34vw,460px)/.82 system-ui,sans-serif;letter-spacing:-.08em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px color-mix(in oklab,var(--foreground) 11%,transparent);pointer-events:none;animation:manifesto-glow-drift 28s ease-in-out infinite alternate}
+.manifesto>div{position:relative;z-index:1}
+.manifesto .manifesto-magnetic-title{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;font-size:clamp(42px,7.4vw,96px);line-height:.88;isolation:isolate}
+.manifesto-magnetic-row{display:block;white-space:nowrap}
+.manifesto-magnetic-row.serif{font-size:.92em;line-height:.95}
+.manifesto-magnetic-letter{display:inline-block;position:relative;transform-origin:50% 62%;will-change:transform;color:color-mix(in srgb-linear,var(--glow-champagne) calc(var(--magnetic-strength,0)*100%),var(--foreground));}
+@keyframes manifesto-glow-drift{from{translate:-2vw 0}to{translate:2vw 0}}
+@media(max-width:640px){.manifesto .manifesto-magnetic-title{font-size:clamp(36px,8vw,48px)}.manifesto::before{font-size:clamp(150px,42vw,250px);-webkit-text-stroke-width:.7px}}
+@media(prefers-reduced-motion:reduce){.manifesto::before{animation:none}.manifesto-magnetic-letter{will-change:auto}}
